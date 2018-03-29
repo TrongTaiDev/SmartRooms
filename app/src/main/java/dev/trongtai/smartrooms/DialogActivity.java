@@ -18,6 +18,7 @@ public class DialogActivity extends AppCompatActivity {
     private ListView listSrc;
     private ListView listSelected;
     private Button btnChon;
+    private Button btnBoChon;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,44 +26,61 @@ public class DialogActivity extends AppCompatActivity {
         listSrc = findViewById(R.id.list_src);
         listSelected = findViewById(R.id.list_selected);
         btnChon = findViewById(R.id.btnChon);
+        btnBoChon = findViewById(R.id.btnBoChon);
 
         final DialogAdapter adapter = new DialogAdapter(this);
         listSrc.setAdapter(adapter);
 
         final List<Persion> seletedPerson = new ArrayList<>();
-        final  List<Persion> totalChoosenPerson = new ArrayList<>();
+        final  List<Persion> totalSelectedPerson = new ArrayList<>();
         listSrc.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if(!seletedPerson.contains(parent.getAdapter().getItem(position))){
+                if(findOutItemIndex((Persion) parent.getAdapter().getItem(position), seletedPerson) == -1){
                     seletedPerson.add((Persion) parent.getAdapter().getItem(position));
                     view.setBackground(getDrawable(android.R.color.holo_orange_light));
                 }
                 else {
-                    seletedPerson.remove(adapter.getItem(position));
+                    seletedPerson.remove(findOutItemIndex((Persion) parent.getAdapter().getItem(position), seletedPerson));
                     view.setBackground(getDrawable(android.R.color.transparent));
                 }
             }
         });
 
+        final List<Persion> unseletedPerson = new ArrayList<>();
+        final List<Persion> totalUnselectedPersion = new ArrayList<>();
+        listSelected.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if(findOutItemIndex((Persion) parent.getAdapter().getItem(position), unseletedPerson) == -1){
+                    unseletedPerson.add((Persion) parent.getAdapter().getItem(position));
+                    view.setBackground(getDrawable(android.R.color.holo_blue_light));
+                }
+                else {
+                    unseletedPerson.remove(findOutItemIndex((Persion) parent.getAdapter().getItem(position), unseletedPerson));
+                    view.setBackground(getDrawable(android.R.color.transparent));
+                }
+            }
+        });
         btnChon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(seletedPerson.size()>0){
                     for (Persion pt:seletedPerson){
-                        if(findOutItemIndex(pt, totalChoosenPerson) == -1)
-                            totalChoosenPerson.add(pt);
+                        if(findOutItemIndex(pt, totalSelectedPerson) == -1)
+                            totalSelectedPerson.add(pt);
                     }
-                    DialogAdapter adapter1 = new DialogAdapter(getApplicationContext(), totalChoosenPerson, 0);
+                    DialogAdapter adapter1 = new DialogAdapter(getApplicationContext(), totalSelectedPerson, 0);
                     listSelected.setAdapter(adapter1);
                     seletedPerson.removeAll(seletedPerson);
 
                     //Lam moi lai danh sach nguon
-                    DialogAdapter adapter2 = new DialogAdapter(getApplicationContext(), totalChoosenPerson, 1);
+                    DialogAdapter adapter2 = new DialogAdapter(getApplicationContext(), totalSelectedPerson, 1);
                     listSrc.setAdapter(adapter2);
                 }
             }
         });
+
     }
     private int findOutItemIndex(Persion item, List<Persion> ds){
         for(int i = 0; i < ds.size(); i++){

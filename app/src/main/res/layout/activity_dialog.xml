@@ -20,10 +20,16 @@
         android:orientation="vertical"
         android:layout_weight="1.5">
         <Button
-            android:id="@+id/btnChon"
+        android:id="@+id/btnChon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="CHON"
+        />
+        <Button
+            android:id="@+id/btnBoChon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="CHON"
+            android:text="Bo chon"
             />
     </LinearLayout>
     <ListView

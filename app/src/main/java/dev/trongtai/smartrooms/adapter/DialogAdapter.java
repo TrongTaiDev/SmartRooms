@@ -45,24 +45,13 @@ public class DialogAdapter extends BaseAdapter {
         else if(mode == 1){
             createDefaultData();
             List<Persion> temp = new ArrayList<>();
-//            for(Persion pt : ds){
-//                temp.add(pt);
-//            }
-//            for(int i = 0; i < ds.size(); i++){
-//                for(int j = 0; j<list.size(); j++){
-//                    if(ds.get(i).getId() == list.get(j).getId()){
-//                        temp.remove(i);
-//                    }
-//                }
-//            }
-//            ds.removeAll(ds);
-//            for(Persion pt : temp){
-//                ds.add(pt);
-//            }
             for(Persion pt: list){
                 if(findOutItemIndex(pt, ds) != -1)
                     ds.remove(findOutItemIndex(pt, ds));
             }
+        }
+        else if(mode ==2){
+            createDefaultData();
         }
     }
 
@@ -89,6 +78,9 @@ public class DialogAdapter extends BaseAdapter {
         ds.add(new Persion(13, "Tai13"));
         ds.add(new Persion(14, "Tai14"));
 
+    }
+    public List<Persion> getDs(){
+        return ds;
     }
     @Override
     public int getCount() {
